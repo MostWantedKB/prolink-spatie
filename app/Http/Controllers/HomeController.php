@@ -51,7 +51,17 @@ class HomeController extends Controller
         //remove permission 
         // $permission->removeRole($role);
 
+        //give permission to user 
+        // auth()->user()->givePermissionTo( $permission);
 
+        //give role to user
+        // auth()->user()->assignRole($role);
+
+        //check the permission of user
+        return auth()->user()->permissions;
+
+
+       
 
         return view('home');
     }
