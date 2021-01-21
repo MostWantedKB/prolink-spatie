@@ -17,9 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::group(['middleware' => ['can:publish articles']], function () {
-    //
-});
+
+Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
+
+
+
+// Route::group(['middleware' => ['role:student']], function () {
+//     Route::get('/student', function () {
+//         return view('student');
+//     });
+// });

@@ -38,7 +38,7 @@ class HomeController extends Controller
         //Create new Permission using Spatie Permission
         // Permission::Create(['name' => 'edit articles']);
 
-      
+
         $permission = Permission::findById(1);
 
 
@@ -58,10 +58,13 @@ class HomeController extends Controller
         // auth()->user()->assignRole($role);
 
         //check the permission of user
-        return auth()->user()->permissions;
+        
+
+        // $permission->removeRole($role);
+        // return auth()->user()->roles;
+        // return Auth()->user()->hasRole('student');
 
 
-       
 
         return view('home');
     }
