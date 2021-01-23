@@ -31,11 +31,14 @@ class LoginController extends Controller
      */
     public function authenticated(Request $request, $user)
     {
-        if ($user->hasRole('student')) 
-        {
-            return redirect('/students');
+        if ($user->hasRole('student')) {
+            return redirect('/student');
+        } else if ($user->hasRole('company')) {
+            return redirect('/company');
+        } else if ($user->hasRole('educator')) {
+            return redirect('/educator');
         } else {
-            return redirect('/home');
+            return redirect('/');
         }
     }
 

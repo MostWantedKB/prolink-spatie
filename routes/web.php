@@ -22,8 +22,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
-
+Route::get('/student', [App\Http\Controllers\StudentController::class, 'index'])->middleware('role:student');
+Route::get('/company', [App\Http\Controllers\CompanyController::class, 'index'])->middleware('role:company');
+Route::get('/educator', [App\Http\Controllers\EducatorController::class, 'index'])->middleware('role:educator');
 
 
 // Route::group(['middleware' => ['role:student']], function () {

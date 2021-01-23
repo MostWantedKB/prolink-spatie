@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
+
 
 class RegisterController extends Controller
 {
@@ -29,8 +32,20 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
+    // protected $redirectTo = '/';
+    protected function registered(Request $request, $user)
+    {
+        // Assign role to $user. Then you can add condition.
+        if ($user->hasRole('student')) {
+            return redirect('/student');
+        } else if ($user->hasRole('company')) {
+            return redirect('/company');
+        } else if ($user->hasRole('educator')) {
+            return redirect('/educator');
+        } else {
+            return redirect('/');
+        }
+    }
     /**
      * Create a new controller instance.
      *
@@ -50,6 +65,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'type' => 'required',
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -64,10 +80,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        $user->assignRole($data['type']);
+        return $user;
     }
 }
